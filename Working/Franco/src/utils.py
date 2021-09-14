@@ -47,24 +47,21 @@ def get_eeg_data_butter_bandpass_filter(eeg_data, low_cut=2, high_cut=20, order=
 
     return EEGData_filtered
 
+def plot_eeg_data(ax, eeg_data, ch_names=None, s_rate=256, start=1, end=4):
 
-def plot_raw_vs_filtered_eeg_data(raw_eeg_data, filtered_eeg_data, ch_names=None, s_rate=256, start=1, end=4):
-
-    ch = raw_eeg_data.shape[0]
+    ch = eeg_data.shape[0]
     x_ticks = np.arange(start * s_rate, (end + 1) * s_rate, s_rate)
-    fig, ax = plt.subplots(ncols=1, figsize=(16, 8))
+    #fig, ax = plt.subplots(ncols=1, figsize=(16, 8))
     # fig.suptitle('Series temporales (uV)')
     y_ticks = []
 
     for c in np.arange(ch):
-        temp = filtered_eeg_data[c, start * s_rate:end * s_rate]
-        temp2 = raw_eeg_data[c, start * s_rate:end * s_rate]
+        temp = eeg_data[c, start * s_rate:end * s_rate]
         d_min = np.min(temp)
         d_max = np.max(temp)
         v_medio = np.mean([d_min, d_max]) + 30 * c
         y_ticks.append(v_medio)
-        ax.plot(np.arange(start * s_rate, end * s_rate), v_medio * np.ones_like(temp) + temp, '--r')
-        ax.plot(np.arange(start * s_rate, end * s_rate), v_medio * np.ones_like(temp2) + temp2, 'k')
+        ax.plot(np.arange(start * s_rate, end * s_rate), v_medio * np.ones_like(temp) + temp, 'k')
 
     ax.set_xlim([start * s_rate, end * s_rate])
     ax.set_xticks(x_ticks)
@@ -74,8 +71,7 @@ def plot_raw_vs_filtered_eeg_data(raw_eeg_data, filtered_eeg_data, ch_names=None
         ax.set_yticklabels(ch_names)
     ax.set_ylabel('channels')
     ax.set_xlabel('Time (s)')
-    plt.show()
-
+    return ax
 
 def get_egg_data(filename):
     """
