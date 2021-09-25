@@ -117,12 +117,12 @@ class Mont1020:
         return info_eeg
 
 
-def plot_topology(eeg_data, info_eeg, s_rate=256, start=1, end=4):
+def plot_topology(eeg_data, info_eeg, sujeto, title, s_rate=256, start=1, end=4):
     fig, ax = plt.subplots(figsize=(8, 4),
                            gridspec_kw=dict(top=0.9),
                            sharex=True,
                            sharey=True)
-
+    
     im, cm = mne.viz.plot_topomap(eeg_data[:, start * s_rate:end * s_rate].mean(axis=1),
                                   info_eeg,
                                   vmin=-0.05,
@@ -131,14 +131,14 @@ def plot_topology(eeg_data, info_eeg, s_rate=256, start=1, end=4):
                                   contours=0,
                                   show=True)
 
-    ax.set_title('Topografía promedio')
+    ax.title.set_text(title)
     ax_x_start = 0.95
     ax_x_width = 0.04
     ax_y_start = 0.1
     ax_y_height = 0.9
     cbar_ax = fig.add_axes([ax_x_start, ax_y_start, ax_x_width, ax_y_height])
     clb = fig.colorbar(im, cax=cbar_ax)
-    plt.show()
+    fig.savefig(f'../images/grafica_topology_sujeto_{sujeto}.png')
 
 
 def get_pca_eeg_data(eeg_data, n_components=3):
@@ -151,15 +151,15 @@ def get_pca_eeg_data(eeg_data, n_components=3):
     return pcs, var
 
 
-def plot_pca_eeg_data(pca, var, info_eeg):
+def plot_pca_eeg_data(pca, var, info_eeg, sujeto, title=''):
 
     fig2, ax = plt.subplots(ncols=pca.shape[1], figsize=(10, 3), gridspec_kw=dict(top=0.9),
                             sharex=True, sharey=True)
     for p in range(pca.shape[1]):
-        mne.viz.plot_topomap(pca[:, p],
+        mne.viz.plot_topomap(pca[:,p],
                              info_eeg,
                              cmap='coolwarm', contours=0,
-                             axes=ax[p], show=False)
-        ax[p].set_title('var:' + str(round(var[p] * 100, 2)))
-
-    plt.show()
+                             axes=ax[p],show=False)
+        ax[p].set_title('var:'+str(round(var[p]*100,2)) )
+    fig2.suptitle(title, fontsize=16, y=1.1)
+    fig2.savefig(f'../images/grafico_pca_sujeto_{sujeto}')
