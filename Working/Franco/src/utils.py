@@ -48,11 +48,11 @@ def get_eeg_data_butter_bandpass_filter(eeg_data, low_cut=2, high_cut=20, order=
     return EEGData_filtered
 
 
-def plot_eeg_data(eeg_data, ch_names=None, s_rate=256, start=1, end=4):
+def plot_eeg_data(ax, eeg_data, ch_names=None, s_rate=256, start=1, end=4):
 
     ch = eeg_data.shape[0]
     x_ticks = np.arange(start * s_rate, (end + 1) * s_rate, s_rate)
-    fig, ax = plt.subplots(ncols=1, figsize=(16, 8))
+    # fig, ax = plt.subplots(ncols=1, figsize=(16, 8))
     # fig.suptitle('Series temporales (uV)')
     y_ticks = []
 
