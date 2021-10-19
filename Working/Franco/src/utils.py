@@ -83,7 +83,7 @@ def get_egg_data(filename):
     """
     datos = pd.read_csv(filename, sep=',', header=None)
     EEGData = datos.to_numpy()
-    s_rate = 256
+    s_rate = 128
     ch = EEGData.shape[0]
     samples = EEGData.shape[1]
 
