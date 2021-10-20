@@ -162,6 +162,32 @@ def plot_pca_eeg_data(pca, var, info_eeg, sujeto, title=''):
     fig2.savefig(f'../images/grafico_pca_sujeto_{sujeto}')
 
 
+def locmax(x):
+    dx = np.diff(x)  # discrete 1st derivative
+    zc = np.diff(np.sign(dx))  # zero-crossings of dx
+    m = 1 + np.where(zc == -2)[0]  # indices of local max.
+    return m
+
+
+def calculo_gfp(data, srate, do_plot):
+    gfp = np.std(data, axis=0)
+    gfp_peaks = locmax(gfp)
+    gfp_values = gfp[gfp_peaks]
+    gfp2 = np.sum(gfp_values ** 2)  # normalizing constant in GEV
+    n_gfp = gfp_peaks.shape[0]
+    if do_plot == 'yes':
+        marcasx = np.arange(3) * srate
+        xlab = ['0', '1', '2']
+        plt.plot(np.arange(len(gfp)), gfp, c='k')
+        plt.scatter(gfp_peaks, gfp_values, c='r')
+        plt.xlim(0, srate * 3)
+        plt.xticks(marcasx, xlab)
+        plt.xlabel('Tiempo (s)')
+        plt.ylabel('GFP')
+        plt.show()
+    return gfp, gfp_peaks, gfp_values, gfp2, n_gfp
+
+
 # k means modificado
 def kmeans3(gfp_maps, gfp_eval, n_maps,
             n_runs=10, maxerr=1e-6, maxiter=500):
