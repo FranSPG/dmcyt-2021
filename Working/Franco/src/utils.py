@@ -335,3 +335,10 @@ def grafica_sil(n_clusters,sil,labels):
    # ax1.set_xticks([-1,-0.5,-0.2,0, 0.2, 0.4, 0.6, 0.8, 1])
 
     plt.show()
+
+
+def calcula_sse_kmedoids(KM,d):
+    se = []
+    for i in range(0,KM.n_clusters):
+        se.append(sum(d[KM.medoid_indices_[i],KM.labels_==i]**2))
+    return sum(se)
