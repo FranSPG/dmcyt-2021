@@ -337,8 +337,8 @@ def grafica_sil(n_clusters,sil,labels):
     plt.show()
 
 
-def calcula_sse_kmedoids(KM,d):
+def calcula_sse_kmedoids(KM, d):
     se = []
-    for i in range(0,KM.n_clusters):
-        se.append(sum(d[KM.medoid_indices_[i],KM.labels_==i]**2))
+    for i in range(0, KM.n_clusters):
+        se.append(sum(d[KM.medoid_indices_[i], KM.labels_ == i]**2))
     return sum(se)
