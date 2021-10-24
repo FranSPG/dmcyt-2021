@@ -276,7 +276,7 @@ def silhoutte_modificado2(maps,data,labels,ch,n_clusters):
 
 
 #Grafico silhoutte
-def grafica_sil(n_clusters,sil,labels):
+def grafica_sil(n_clusters,sil,labels,save_name=None):
     import matplotlib.cm as cm
     # Create a subplot with 1 row and 2 columns
     fig = plt.figure()
@@ -333,7 +333,8 @@ def grafica_sil(n_clusters,sil,labels):
 
     ax1.set_yticks([])  # Clear the yaxis labels / ticks
    # ax1.set_xticks([-1,-0.5,-0.2,0, 0.2, 0.4, 0.6, 0.8, 1])
-
+    if save_name:
+        plt.savefig(save_name)
     plt.show()
 
 
